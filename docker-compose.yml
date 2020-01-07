@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:4000
+    volumes:
+      - .:/code
+      - /mnt/sdc/result/resdata10/:/resultdata/
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db

@@ -1,0 +1,1 @@
+RUN docker run -mount .:E:/result/resdata10/ -it nginx
