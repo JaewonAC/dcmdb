@@ -3,13 +3,47 @@ version: '3'
 services:
   db:
     image: postgres
-  web:
+    networks:
+      - app-network
+
+  nodejs:
+    image: kitware/paraviewweb:pvw-egl-demo-v5.6.0
+    container_name: nodejs
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  django:
     build: .
-    command: python manage.py runserver 0.0.0.0:4000
+    command: python manage.py runserver 0.0.0.0:8000
+    container_name: django
+    restart: unless-stopped
     volumes:
       - .:/code
-      - /mnt/sdc/result/resdata10/:/resultdata/
+      - /mnt/sdb/data/resdata10/:/resultdata/
     ports:
-      - "4000:4000"
+      - 8000:8000
     depends_on:
       - db
+    networks:
+      - app-network
+      
+  webserver:
+    image: nginx:mainline-alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - "4000:80"
+    volumes:
+      - /mnt/sdb/data/resdata10:/usr/share/nginx/html/data
+      - ./nginx-conf:/etc/nginx/conf.d
+    depends_on:
+      - nodejs
+      - django
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+

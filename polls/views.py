@@ -1,5 +1,5 @@
 import os
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 import requests
 
 
@@ -10,13 +10,18 @@ def index(request):
 
 
 def to_paraviewweb(request, datestudy):
+    glance_address = 'http://60.197.149.172:14000/glance/'
+    data_address = 'http://60.197.149.172:14000/data/'
     filenames = ['dataset.vti', 'teeth_mesh.stl', 'maxilla_mesh.stl', 'mandibular_mesh.stl']
-    path = '/resultdata/' + datestudy + '/'
-    files = []
-    for filename in filenames:
-        with open(path + filename, 'rb') as file:
-            files.append(('files[]', (filename, file.read())))
+    redirect_url = glance_address + '?name=['
 
-    print('files are loaded.')
-    return requests.get('http://jac-dt:4000/glance/', files=files)
+    for filename in filenames:
+        redirect_url += filename + ','
+    redirect_url = redirect_url[:-1] + ']&url=['
+
+    for filename in filenames:
+        redirect_url += data_address + datestudy + '/' + filename + ','
+    redirect_url = redirect_url[:-1] + ']'
+
+    return redirect(redirect_url)
 
