@@ -15,14 +15,14 @@ services:
 
   django:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    image: dcmdb_django:latest
+    command: python manage.py runserver 0.0.0.0:80
     container_name: django
     restart: unless-stopped
     volumes:
-      - .:/code
+      - .:/code/
       - /mnt/sdb/data/resdata10/:/resultdata/
-    ports:
-      - 8000:8000
+      # - ./sample:/resultdata/
     depends_on:
       - db
     networks:
@@ -33,9 +33,10 @@ services:
     container_name: webserver
     restart: unless-stopped
     ports:
-      - "4000:80"
+      - "80:80"
     volumes:
-      - /mnt/sdb/data/resdata10:/usr/share/nginx/html/data
+      - /mnt/sdb/data/resdata10:/usr/share/nginx/html/data/
+      # - ./sample:/usr/share/nginx/html/data/
       - ./nginx-conf:/etc/nginx/conf.d
     depends_on:
       - nodejs

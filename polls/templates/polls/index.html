@@ -5,6 +5,17 @@
     <title>Title</title>
 </head>
 <body>
+    <li>Click any of hyperlinks below. then you will be redirected to ParaView Glance with corresponding data.</li>
+    <li>After volume(vti) and meshes(stl) are loaded, adjust:</li>
+    <li>each stl's [Representation]-[Mesh]-[Opacity] and [Colors]-[Color],</li>
+    <li>vti's [Colors]-[Default(Cool to Warm)] to [Medical]-[CT]-[Bone] and [Colors]-[Shift]</li>
+    <li></li>
+    <li>Recommendation:</li>
+    <li>Teeth_mesh's Opacity about 0.2, and Color to Red</li>
+    <li>Maxilla's Opacity about 0.1, and Color to Violet</li>
+    <li>Mandibular's Opacity about 0.1, and Color to Blue</li>
+    <li>dataset's shift to your best visibility</li>
+    <li></li>
     {% for data in resultdata %}
     <li><a href="{{data}}">{{data}}</a></li>
     {% endfor %}

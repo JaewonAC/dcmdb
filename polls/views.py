@@ -1,6 +1,5 @@
 import os
 from django.shortcuts import redirect, render
-import requests
 
 
 # Create your views here.
@@ -10,8 +9,8 @@ def index(request):
 
 
 def to_paraviewweb(request, datestudy):
-    glance_address = 'http://60.197.149.172:14000/glance/'
-    data_address = 'http://60.197.149.172:14000/data/'
+    glance_address = 'http://60.197.149.172:8080/glance/'
+    data_address = 'http://60.197.149.172:8080/data/'
     filenames = ['dataset.vti', 'teeth_mesh.stl', 'maxilla_mesh.stl', 'mandibular_mesh.stl']
     redirect_url = glance_address + '?name=['
 
